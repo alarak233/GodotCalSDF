@@ -1,0 +1,90 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt5h2ksa2xx3e"]
+
+[ext_resource type="Script" uid="uid://bd85yu2cedebb" path="res://Src/Main.cs" id="1_ig7tw"]
+
+[node name="MainUI" type="Control"]
+layout_direction = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer"]
+layout_direction = 1
+layout_mode = 2
+theme_override_constants/v_separation = 40
+
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/GridContainer"]
+custom_minimum_size = Vector2(460, 500)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+current_tab = 0
+
+[node name="球光" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="散光" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="轴位" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="矢高" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/GridContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "当前选择的镜片为:"
+
+[node name="LRCheckButton" type="CheckButton" parent="CenterContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 0
+theme_override_font_sizes/font_size = 30
+text = "L"
+
+[node name="PathLabel" type="Label" parent="CenterContainer/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "sdf路径:"
+
+[node name="CalButton" type="Button" parent="CenterContainer/GridContainer"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 40
+text = "导入文件并计算"
+
+[node name="MyFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+size = Vector2i(460, 360)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.sdf", "*.txt", "*.csv")
