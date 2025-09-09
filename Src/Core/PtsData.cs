@@ -2,16 +2,33 @@ using Godot;
 using System;
 using System.IO;
 
+public record AllTexture
+{
+    public ImageTexture SphTexture { get; init; }
+    public ImageTexture CylTexture { get; init; }
+    public ImageTexture AxTexture { get; init; }
+    public ImageTexture SagTexture { get; init; }
+}
 public class PtsData
 {
     public double[,] LPtsMatrix { get; private set; }
     public double[,] RPtsMatrix { get; private set; }
     public double LCrib { get; private set; }
     public double RCrib { get; private set; }
+    public double LD { get; private set; }
+    public double RD { get; private set; }
+    public CalCurv.CurvResult LCurv { get; private set; }
+    public CalCurv.CurvResult RCurv { get; private set; }
+    public AllTexture LTexture { get; private set; }
+    public AllTexture RTexture { get; private set; }
 
     public PtsData(string filePath)
     {
         ReadSDF(filePath);
+        LCurv = CalCurv.Cal(LPtsMatrix, LD);
+        RCurv = CalCurv.Cal(RPtsMatrix, RD);
+        LTexture = GenAllTexture(LCurv);
+        RTexture = GenAllTexture(RCurv);
     }
 
     private void ReadSDF(string filePath)
@@ -36,10 +53,12 @@ public class PtsData
             {
                 case "R":
                     RCrib = crib;
+                    RD = RCrib / (rows - 1);
                     RPtsMatrix = ReadMatrix(lines, i, rows);
                     break;
                 case "L":
                     LCrib = crib;
+                    LD = LCrib / (rows - 1);
                     LPtsMatrix = ReadMatrix(lines, i, rows);
                     break;
                 default:
@@ -49,7 +68,7 @@ public class PtsData
             i += rows;
         }
     }
-    private double[,] ReadMatrix(string[] lines, int startIndex, int rows)
+    private static double[,] ReadMatrix(string[] lines, int startIndex, int rows)
     {
         var matrix = new double[rows, rows];
         for (int i = 0; i < rows; i++)
@@ -67,5 +86,16 @@ public class PtsData
             }
         }
         return matrix;
+    }
+
+    private static AllTexture GenAllTexture(CalCurv.CurvResult curvResult)
+    {
+        return new AllTexture
+        {
+            SphTexture = HeatMapDrawer.GenHeatMapTexture(curvResult?.sph),
+            CylTexture = HeatMapDrawer.GenHeatMapTexture(curvResult?.cyl),
+            AxTexture = HeatMapDrawer.GenHeatMapTexture(curvResult?.ax),
+            SagTexture = HeatMapDrawer.GenHeatMapTexture(curvResult?.sag),
+        };
     }
 }
