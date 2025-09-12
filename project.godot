@@ -13,6 +13,7 @@ config_version=5
 config/name="godotCalSDF"
 run/main_scene="uid://bt5h2ksa2xx3e"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [display]
@@ -20,6 +21,7 @@ config/icon="res://icon.svg"
 window/size/viewport_width=480
 window/size/viewport_height=1000
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 window/handheld/orientation=1
 
 [dotnet]

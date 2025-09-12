@@ -4,66 +4,179 @@ using System.Threading;
 
 public partial class Main : Control
 {
-    private PtsData _ptsData;
-    private FileDialog _myFileDialog;
-    private Label _pathLabel;
-    private TextureRect _sphTexture;
-    private TextureRect _cylTexture;
-    private TextureRect _axTexture;
-    private TextureRect _sagTexture;
-    private CheckButton _lrCheckButton;
+    [Export] private FileDialog myFileDialog;
+    [Export] private Label pathLabel;
+    [Export] private TabContainer tabContainer;
+    [Export] private TextureRect sphTextureRect;
+    [Export] private TextureRect cylTextureRect;
+    [Export] private TextureRect axTextureRect;
+    [Export] private TextureRect sagTextureRect;
+    [Export] private LineEdit lindLineEdit;
+    [Export] private LineEdit DRXLineEdit;
+    [Export] private LineEdit DRYLineEdit;
+    [Export] private LineEdit NRXLineEdit;
+    [Export] private LineEdit NRYLineEdit;
+    [Export] private CheckButton lrCheckButton;
+    [Export] private Button getValueButton;
+    [Export] private Label DRResultLabel;
+    [Export] private Label NRResultLabel;
+    [Export] private Button calButton;
+    private FileDialog nativeFileDialog;
+    private PtsData ptsData;
 
     public override void _Ready()
     {
-        _myFileDialog = GetNode<FileDialog>("MyFileDialog");
-        _myFileDialog.FileSelected += OnFileSelected;
+        nativeFileDialog = new();
+        nativeFileDialog.Access = FileDialog.AccessEnum.Filesystem;
+        nativeFileDialog.FileMode = FileDialog.FileModeEnum.OpenFile;
+        nativeFileDialog.Filters = ["*.sdf", "*.txt", "*.csv"];
+        nativeFileDialog.UseNativeDialog = true;
+        AddChild(nativeFileDialog);
+        nativeFileDialog.FileSelected += OnFileSelected;
 
-        _pathLabel = GetNode<Label>("CenterContainer/GridContainer/PathLabel");
+        myFileDialog.FileSelected += OnFileSelected;
 
-        _sphTexture = GetNode<TextureRect>("CenterContainer/GridContainer/TabContainer/sph/sphTexture");
-        _cylTexture = GetNode<TextureRect>("CenterContainer/GridContainer/TabContainer/cyl/cylTexture");
-        _axTexture = GetNode<TextureRect>("CenterContainer/GridContainer/TabContainer/ax/axTexture");
-        _sagTexture = GetNode<TextureRect>("CenterContainer/GridContainer/TabContainer/sag/sagTexture");
+        getValueButton.Pressed += OnGetValueButtonPressed;
 
-        _lrCheckButton = GetNode<CheckButton>("CenterContainer/GridContainer/HBoxContainer/LRCheckButton");
-        _lrCheckButton.Toggled += UpdateTexture;
+        lrCheckButton.Toggled += OnLRButtonToggled;
 
-        var calButton = GetNode<Button>("CenterContainer/GridContainer/CalButton");
-        calButton.Pressed += CalButtonCommand;
+        calButton.Pressed += OnCalButtonPressed;
+
+        tabContainer.TabChanged += OnTabContainerTabChanged;
     }
-
 
     public void OnFileSelected(string filePath)
     {
+        pathLabel.Text = "sdf路径:" + filePath;
         try
         {
-            _ptsData = new PtsData(filePath);
-            UpdateTexture(_lrCheckButton.ButtonPressed);
-            _pathLabel.Text = "sdf路径:" + filePath;
+            ptsData = new PtsData(filePath);
+            UpdateTexture(lrCheckButton.ButtonPressed);
+            UpdateResultLabel();
         }
         catch (Exception e)
         {
-            _pathLabel.Text = e.Message;
+            pathLabel.Text = e.Message;
         }
     }
 
-    public void CalButtonCommand()
+    public void OnCalButtonPressed() =>
+        // myFileDialog.PopupCentered();
+        nativeFileDialog.PopupCentered();
+
+    public void OnGetValueButtonPressed() =>
+        UpdateResultLabel();
+
+    public void OnLRButtonToggled(bool pressed)
     {
-        _myFileDialog.PopupCentered();
+        UpdateTexture(pressed);
+        var curDRX = DRXLineEdit.Text.Replace("-", "");
+        DRXLineEdit.Text = pressed ? "-" + curDRX : curDRX;
+        UpdateResultLabel();
     }
 
-    public void UpdateTexture(bool ButtonPressed)
+    public void OnTabContainerTabChanged(long tabIndex)
     {
-        var curTexture = _ptsData?.LTexture;
-        _lrCheckButton.Text = "L";
-        if (ButtonPressed)
+        // GD.Print($"{tabIndex}");
+        UpdateResultLabel();
+    }
+
+    public void UpdateTexture(bool pressed)
+    {
+        if (ptsData == null)
         {
-            curTexture = _ptsData?.RTexture;
-            _lrCheckButton.Text = "R";
+            ClearTextures(); // 清空所有纹理
+            return;
         }
-        _sphTexture.Texture = curTexture?.SphTexture;
-        _cylTexture.Texture = curTexture?.CylTexture;
-        _axTexture.Texture = curTexture?.AxTexture;
-        _sagTexture.Texture = curTexture?.SagTexture;
+        var curTexture = ptsData?.LTexture;
+        lrCheckButton.Text = "L";
+        if (pressed)
+        {
+            curTexture = ptsData?.RTexture;
+            lrCheckButton.Text = "R";
+        }
+        sphTextureRect.Texture = curTexture?.SphTexture;
+        cylTextureRect.Texture = curTexture?.CylTexture;
+        axTextureRect.Texture = curTexture?.AxTexture;
+        sagTextureRect.Texture = curTexture?.SagTexture;
+    }
+
+    private void ClearTextures()
+    {
+        sphTextureRect.Texture = null;
+        cylTextureRect.Texture = null;
+        axTextureRect.Texture = null;
+        sagTextureRect.Texture = null;
+    }
+
+    public void UpdateResultLabel()
+    {
+        if (ptsData == null)
+        {
+            DRResultLabel.Text = "请先加载数据";
+            NRResultLabel.Text = "请先加载数据";
+            return;
+        }
+
+        if (!double.TryParse(lindLineEdit.Text, out double lind) ||
+            lind < 1.0 || lind > 2.0)
+        {
+            DRResultLabel.Text = "折射率输入错误";
+            NRResultLabel.Text = "折射率输入错误";
+            return;
+        }
+
+        if (!int.TryParse(DRXLineEdit.Text, out int DRx) ||
+        !int.TryParse(DRYLineEdit.Text, out int DRy) ||
+        !int.TryParse(NRXLineEdit.Text, out int NRx) ||
+        !int.TryParse(NRYLineEdit.Text, out int NRy))
+        {
+            DRResultLabel.Text = "坐标值输入错误";
+            NRResultLabel.Text = "坐标值输入错误";
+            return;
+        }
+
+        double DRResult;
+        double NRResult;
+
+        var isR = lrCheckButton.ButtonPressed;
+        var curCurv = isR ? ptsData.RCurv : ptsData.LCurv;
+        string tabName = tabContainer.GetChild(tabContainer.CurrentTab).Name;
+        double[,] curMatrix = tabName switch
+        {
+            "sph" => curCurv.sph,
+            "cyl" => curCurv.cyl,
+            "ax" => curCurv.ax,
+            "sag" => curCurv.sag,
+            _ => null,
+        };
+
+        if (curMatrix is null || curMatrix.GetLength(0) % 2 == 0)
+        {
+            DRResultLabel.Text = "点云不存在";
+            NRResultLabel.Text = "点云不存在";
+            return;
+        }
+        var n = (curMatrix.GetLength(0) - 1) / 2;
+        try
+        {
+            if (tabName == "sph" || tabName == "cyl")
+            {
+                DRResult = (lind - 1) * 1000 * curMatrix[n + DRy, n + DRx];
+                NRResult = (lind - 1) * 1000 * curMatrix[n + NRy, n + NRx];
+            }
+            else
+            {
+                DRResult = curMatrix[n + DRy, n + DRx];
+                NRResult = curMatrix[n + NRy, n + NRx];
+            }
+            DRResultLabel.Text = $"结果: {DRResult:f3}";
+            NRResultLabel.Text = $"结果: {NRResult:f3}";
+        }
+        catch
+        {
+            DRResultLabel.Text = $"查询的结果不存在";
+            NRResultLabel.Text = $"查询的结果不存在";
+        }
     }
 }

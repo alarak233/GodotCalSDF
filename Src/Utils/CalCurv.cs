@@ -12,7 +12,7 @@ public class CalCurv
         public double[,] K;
         public double[,] k1;
         public double[,] k2;
-        public double[,] t;
+        public double[,] theta;
         public double cellSize;
 
         public CurvResult(int n, double d)
@@ -25,7 +25,7 @@ public class CalCurv
             K = new double[n, n];
             k1 = new double[n, n];
             k2 = new double[n, n];
-            t = new double[n, n];
+            theta = new double[n, n];
             cellSize = d;
         }
     }
@@ -51,17 +51,17 @@ public class CalCurv
                     CurvResult.K[i, j] = double.NaN;
                     CurvResult.k1[i, j] = double.NaN;
                     CurvResult.k2[i, j] = double.NaN;
-                    CurvResult.t[i, j] = double.NaN;
+                    CurvResult.theta[i, j] = double.NaN;
                     continue;
                 }
 
                 // 有限差分计算一阶导数
                 double p = (heightMap[i, j + 1] - heightMap[i, j - 1]) / (2 * d);
-                double q = -(heightMap[i + 1, j] - heightMap[i - 1, j]) / (2 * d);
+                double q = (heightMap[i + 1, j] - heightMap[i - 1, j]) / (2 * d);
 
                 // 二阶导数
                 double r = (heightMap[i, j + 1] - 2 * heightMap[i, j] + heightMap[i, j - 1]) / (d * d);
-                double t = -(heightMap[i + 1, j] - 2 * heightMap[i, j] + heightMap[i - 1, j]) / (d * d);
+                double t = (heightMap[i + 1, j] - 2 * heightMap[i, j] + heightMap[i - 1, j]) / (d * d);
                 double s = (heightMap[i + 1, j + 1] - heightMap[i + 1, j - 1] -
                             heightMap[i - 1, j + 1] + heightMap[i - 1, j - 1]) / (4 * d * d);
 
@@ -111,13 +111,13 @@ public class CalCurv
                     CurvResult.sph[i, j] = k1;
                     CurvResult.cyl[i, j] = k1 - k2;
                     var thetaD = theta / Math.PI * 180;
-                    CurvResult.ax[i, j] = (thetaD + 180) % 180;
+                    CurvResult.ax[i, j] = (-thetaD + 270) % 180;
                 }
                 CurvResult.H[i, j] = H;
                 CurvResult.K[i, j] = K;
                 CurvResult.k1[i, j] = k1;
                 CurvResult.k2[i, j] = k2;
-                CurvResult.t[i, j] = theta;
+                CurvResult.theta[i, j] = theta;
             }
         }
 
