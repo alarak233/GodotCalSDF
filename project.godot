@@ -10,11 +10,12 @@ config_version=5
 
 [application]
 
-config/name="godotCalSDF"
+config/name="金凯sdf计算"
 run/main_scene="uid://bt5h2ksa2xx3e"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+boot_splash/image="uid://b8gemwuyes16c"
+config/icon="uid://b8gemwuyes16c"
 
 [display]
 
