@@ -108,8 +108,8 @@ public class CalCurv
                 if (Math.Pow(i - n2, 2) + Math.Pow(j - n2, 2) < Math.Pow(maxR / d, 2))
                 {
                     CurvResult.sag[i, j] = heightMap[i, j];
-                    CurvResult.sph[i, j] = k1;
-                    CurvResult.cyl[i, j] = k1 - k2;
+                    CurvResult.sph[i, j] = -k2;
+                    CurvResult.cyl[i, j] = -k1 + k2;
                     var thetaD = theta / Math.PI * 180;
                     CurvResult.ax[i, j] = (-thetaD + 270) % 180;
                 }
