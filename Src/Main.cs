@@ -32,6 +32,7 @@ public partial class Main : Control
         nativeFileDialog.Filters = ["*.sdf", "*.txt", "*.csv"];
         nativeFileDialog.UseNativeDialog = true;
         AddChild(nativeFileDialog);
+
         nativeFileDialog.FileSelected += OnFileSelected;
 
         myFileDialog.FileSelected += OnFileSelected;
@@ -60,9 +61,37 @@ public partial class Main : Control
         }
     }
 
-    public void OnCalButtonPressed() =>
+    public void OnCalButtonPressed()
+    {
         // myFileDialog.PopupCentered();
-        nativeFileDialog.PopupCentered();
+        // nativeFileDialog.PopupCentered();
+        DisplayServer.FileDialogShow(
+            "请选择sdf文件",
+            OS.GetSystemDir(OS.SystemDir.Downloads),
+            "",
+            false,
+            DisplayServer.FileDialogMode.OpenFile,
+            ["*.sdf",
+            "*.txt",
+            "*.csv"],
+            new Callable(this, nameof(CalButtonCallBack))
+        );
+    }
+
+    public void CalButtonCallBack(bool status, string[] filePaths, int index)
+    {
+        pathLabel.Text = "sdf路径:" + filePaths[0];
+        try
+        {
+            ptsData = new PtsData(filePaths[0]);
+            UpdateTexture(lrCheckButton.ButtonPressed);
+            UpdateResultLabel();
+        }
+        catch (Exception e)
+        {
+            pathLabel.Text += "\n" + e.Message;
+        }
+    }
 
     public void OnGetValueButtonPressed() =>
         UpdateResultLabel();

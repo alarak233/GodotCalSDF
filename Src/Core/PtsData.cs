@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 public record AllTexture
@@ -33,10 +34,18 @@ public class PtsData
 
     private void ReadSDF(string filePath)
     {
+        // if (OS.GetName() == "Android") filePath = "file//" + filePath;
         var extension = Path.GetExtension(filePath).ToLower();
         if (extension != ".csv" && extension != ".sdf" && extension != ".txt")
             throw new ArgumentException("不支持的文件类型");
-        var lines = File.ReadAllLines(filePath);
+        var file = Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
+        // var fileData = file.GetAsText();
+        var linesList = new List<string>();
+        while (!file.EofReached())
+        {
+            linesList.Add(file.GetLine());
+        }
+        var lines = linesList.ToArray();
         for (int i = 0; i < lines.Length; i++)
         {
             if (!lines[i].StartsWith("SURFMT=")) continue;
