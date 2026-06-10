@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bt5h2ksa2xx3e"]
+[gd_scene format=3 uid="uid://bt5h2ksa2xx3e"]
 
 [ext_resource type="Script" uid="uid://bd85yu2cedebb" path="res://Src/Main.cs" id="1_ig7tw"]
 
-[node name="MainUI" type="Control" node_paths=PackedStringArray("myFileDialog", "pathLabel", "tabContainer", "sphTextureRect", "cylTextureRect", "axTextureRect", "sagTextureRect", "lindLineEdit", "DRXLineEdit", "DRYLineEdit", "NRXLineEdit", "NRYLineEdit", "lrCheckButton", "getValueButton", "DRResultLabel", "NRResultLabel", "calButton")]
+[node name="MainUI" type="Control" unique_id=1857254152 node_paths=PackedStringArray("myFileDialog", "pathLabel", "tabContainer", "sphTextureRect", "cylTextureRect", "axTextureRect", "sagTextureRect", "lindLineEdit", "DRXLineEdit", "DRYLineEdit", "NRXLineEdit", "NRYLineEdit", "lrCheckButton", "getValueButton", "DRResultLabel", "NRResultLabel", "calButton", "FRNTLineEdit")]
 layout_direction = 1
 layout_mode = 3
 anchors_preset = 15
@@ -28,8 +28,9 @@ getValueButton = NodePath("CenterContainer/GridContainer/HBoxContainer2/GetValue
 DRResultLabel = NodePath("CenterContainer/GridContainer/GridContainer2/DRResultLabel")
 NRResultLabel = NodePath("CenterContainer/GridContainer/GridContainer2/NRResultLabel")
 calButton = NodePath("CenterContainer/GridContainer/CalButton")
+FRNTLineEdit = NodePath("CenterContainer/GridContainer/HBoxContainer2/FrntLineEdit")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1116975686]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,74 +38,74 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GridContainer" type="GridContainer" parent="CenterContainer"]
+[node name="GridContainer" type="GridContainer" parent="CenterContainer" unique_id=1114685502]
 layout_direction = 1
 layout_mode = 2
 theme_override_constants/v_separation = 20
 
-[node name="TabContainer" type="TabContainer" parent="CenterContainer/GridContainer"]
+[node name="TabContainer" type="TabContainer" parent="CenterContainer/GridContainer" unique_id=1620942216]
 custom_minimum_size = Vector2(460, 520)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 current_tab = 0
 
-[node name="sph" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+[node name="sph" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer" unique_id=509068586]
 layout_mode = 2
 alignment = 1
 metadata/_tab_index = 0
 
-[node name="sphTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/sph"]
+[node name="sphTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/sph" unique_id=1159699109]
 custom_minimum_size = Vector2(450, 450)
 layout_mode = 2
 expand_mode = 5
 flip_v = true
 
-[node name="cyl" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+[node name="cyl" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer" unique_id=1987804301]
 visible = false
 layout_mode = 2
 alignment = 1
 metadata/_tab_index = 1
 
-[node name="cylTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/cyl"]
+[node name="cylTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/cyl" unique_id=362052891]
 custom_minimum_size = Vector2(450, 450)
 layout_mode = 2
 expand_mode = 5
 flip_v = true
 
-[node name="ax" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+[node name="ax" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer" unique_id=821935819]
 visible = false
 layout_mode = 2
 alignment = 1
 metadata/_tab_index = 2
 
-[node name="axTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/ax"]
+[node name="axTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/ax" unique_id=333236023]
 custom_minimum_size = Vector2(450, 450)
 layout_mode = 2
 expand_mode = 5
 flip_v = true
 
-[node name="sag" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer"]
+[node name="sag" type="VBoxContainer" parent="CenterContainer/GridContainer/TabContainer" unique_id=1884177617]
 visible = false
 layout_mode = 2
 alignment = 1
 metadata/_tab_index = 3
 
-[node name="sagTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/sag"]
+[node name="sagTexture" type="TextureRect" parent="CenterContainer/GridContainer/TabContainer/sag" unique_id=1737955743]
 custom_minimum_size = Vector2(450, 450)
 layout_mode = 2
 expand_mode = 5
 flip_v = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/GridContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/GridContainer" unique_id=599657596]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="CenterContainer/GridContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/HBoxContainer" unique_id=660907919]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "当前选择的镜片为:"
 
-[node name="LRCheckButton" type="CheckButton" parent="CenterContainer/GridContainer/HBoxContainer"]
+[node name="LRCheckButton" type="CheckButton" parent="CenterContainer/GridContainer/HBoxContainer" unique_id=253997745]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -113,89 +114,98 @@ theme_override_constants/h_separation = 0
 theme_override_font_sizes/font_size = 30
 text = "L"
 
-[node name="PathLabel" type="Label" parent="CenterContainer/GridContainer"]
+[node name="PathLabel" type="Label" parent="CenterContainer/GridContainer" unique_id=950823108]
 custom_minimum_size = Vector2(250, 70)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "sdf路径:"
 autowrap_mode = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/GridContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/GridContainer" unique_id=1897698398]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Label" type="Label" parent="CenterContainer/GridContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/HBoxContainer2" unique_id=886662201]
 layout_mode = 2
 text = "折射率:"
 
-[node name="LindLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/HBoxContainer2"]
+[node name="LindLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/HBoxContainer2" unique_id=896340656]
 layout_mode = 2
 size_flags_vertical = 4
 text = "1.591"
 
-[node name="GetValueButton" type="Button" parent="CenterContainer/GridContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="CenterContainer/GridContainer/HBoxContainer2" unique_id=640604855]
+layout_mode = 2
+text = "前弯:"
+
+[node name="FrntLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/HBoxContainer2" unique_id=921768968]
+layout_mode = 2
+size_flags_vertical = 4
+text = "0.0"
+
+[node name="GetValueButton" type="Button" parent="CenterContainer/GridContainer/HBoxContainer2" unique_id=872495793]
 custom_minimum_size = Vector2(90, 50)
 layout_mode = 2
 size_flags_vertical = 4
 text = "查询"
 
-[node name="GridContainer2" type="GridContainer" parent="CenterContainer/GridContainer"]
+[node name="GridContainer2" type="GridContainer" parent="CenterContainer/GridContainer" unique_id=434571735]
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 6
 
-[node name="Label" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=84073650]
 layout_mode = 2
 text = "近视参考点:"
 
-[node name="Label3" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label3" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=2142353425]
 layout_mode = 2
 text = "x:"
 
-[node name="DRXLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="DRXLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2" unique_id=1851334457]
 layout_mode = 2
 text = "2"
 
-[node name="Label4" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label4" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=1465376130]
 layout_mode = 2
 text = "y:"
 
-[node name="DRYLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="DRYLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2" unique_id=2023587184]
 layout_mode = 2
 text = "-10"
 
-[node name="DRResultLabel" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="DRResultLabel" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=781991498]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "结果:"
 
-[node name="Label2" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label2" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=64613270]
 layout_mode = 2
 text = "远视参考点:"
 
-[node name="Label5" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label5" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=1172629993]
 layout_mode = 2
 text = "x:"
 
-[node name="NRXLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="NRXLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2" unique_id=120020108]
 layout_mode = 2
 text = "0"
 
-[node name="Label6" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="Label6" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=725447153]
 layout_mode = 2
 text = "y:"
 
-[node name="NRYLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="NRYLineEdit" type="LineEdit" parent="CenterContainer/GridContainer/GridContainer2" unique_id=1868623224]
 layout_mode = 2
 text = "8"
 
-[node name="NRResultLabel" type="Label" parent="CenterContainer/GridContainer/GridContainer2"]
+[node name="NRResultLabel" type="Label" parent="CenterContainer/GridContainer/GridContainer2" unique_id=352508877]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 text = "结果:"
 
-[node name="CalButton" type="Button" parent="CenterContainer/GridContainer"]
+[node name="CalButton" type="Button" parent="CenterContainer/GridContainer" unique_id=477636814]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -203,7 +213,7 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 40
 text = "导入文件并计算"
 
-[node name="MyFileDialog" type="FileDialog" parent="."]
+[node name="MyFileDialog" type="FileDialog" parent="." unique_id=114187695]
 title = "Open a File"
 size = Vector2i(460, 360)
 ok_button_text = "Open"

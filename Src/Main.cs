@@ -21,6 +21,7 @@ public partial class Main : Control
     [Export] private Label DRResultLabel;
     [Export] private Label NRResultLabel;
     [Export] private Button calButton;
+    [Export] private LineEdit FRNTLineEdit;
     private FileDialog nativeFileDialog;
     private PtsData ptsData;
 
@@ -193,6 +194,11 @@ public partial class Main : Control
             {
                 DRResult = (lind - 1) * 1000 * curMatrix[n + DRy, n + DRx];
                 NRResult = (lind - 1) * 1000 * curMatrix[n + NRy, n + NRx];
+                if (tabName == "sph")
+                {
+                    DRResult += FRNTLineEdit?.Text.Length > 0 ? double.Parse(FRNTLineEdit.Text) : 0;
+                    NRResult += FRNTLineEdit?.Text.Length > 0 ? double.Parse(FRNTLineEdit.Text) : 0;
+                }
             }
             else
             {
